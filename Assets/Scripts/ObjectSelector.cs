@@ -6,11 +6,11 @@ public class ObjectSelector : MonoBehaviour
 {
     private GameObject selectedObject;
     private Rigidbody selectedRigidbody;
-    private bool isDragging = false;
+    private bool isHold = false;
     private Vector3 offset;
-    private Vector3 dragStartMousePosition; // µå·¡±× ½ÃÀÛ ½Ã ¸¶¿ì½º À§Ä¡
-    private Vector3 lastMousePosition; // ¸¶Áö¸· ¸¶¿ì½º À§Ä¡¸¦ ÃßÀûÇÏ´Â º¯¼ö
-    private float dragStartTime; // µå·¡±× ½ÃÀÛ ½Ã°£
+    private Vector3 holdStartMousePosition; // ì¡ê¸° ì‹œì‘ ì‹œ ë§ˆìš°ìŠ¤ ìœ„ì¹˜
+    private Vector3 lastMousePosition; // ë§ˆì§€ë§‰ ë§ˆìš°ìŠ¤ ìœ„ì¹˜ë¥¼ ì¶”ì í•˜ëŠ” ë³€ìˆ˜
+    private float holdStartTime; // ì¡ê¸° ì‹œì‘ ì‹œê°„
 
     private void Update()
     {
@@ -19,16 +19,16 @@ public class ObjectSelector : MonoBehaviour
             SelectObject();
         }
 
-        if (isDragging)
+        if (isHold)
         {
-            DragObject();
-            lastMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.WorldToScreenPoint(selectedObject.transform.position).z)); // ¸¶Áö¸· ¸¶¿ì½º À§Ä¡ ¾÷µ¥ÀÌÆ®
+            HoldObject();
+            lastMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.WorldToScreenPoint(selectedObject.transform.position).z)); // ë§ˆì§€ë§‰ ë§ˆìš°ìŠ¤ ìœ„ì¹˜ ì—…ë°ì´íŠ¸
         }
 
-        if (Input.GetMouseButtonUp(0) && isDragging)
+        if (Input.GetMouseButtonUp(0) && isHold)
         {
             ReleaseObject();
-            isDragging = false;
+            isHold = false;
         }
     }
 
@@ -57,18 +57,18 @@ public class ObjectSelector : MonoBehaviour
                     selectedRigidbody.isKinematic = true;
                 }
 
-                isDragging = true;
+                isHold = true;
 
-                dragStartMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(
+                holdStartMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(
                     Input.mousePosition.x,
                     Input.mousePosition.y,
                     Camera.main.WorldToScreenPoint(selectedObject.transform.position).z));
-                dragStartTime = Time.time;
+                holdStartTime = Time.time;
             }
         }
     }
 
-    private void DragObject()
+    private void HoldObject()
     {
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(new Vector3(
             Input.mousePosition.x,
@@ -93,9 +93,9 @@ public class ObjectSelector : MonoBehaviour
         {
             selectedRigidbody.isKinematic = false;
 
-            Vector3 velocity = (lastMousePosition - dragStartMousePosition) / (Time.time - dragStartTime); // µå·¡±× µ¿¾ÈÀÇ Æò±Õ ¼Óµµ °è»ê
+            Vector3 velocity = (lastMousePosition - dragStartMousePosition) / (Time.time - dragStartTime); // ë“œë˜ê·¸ ë™ì•ˆì˜ í‰ê·  ì†ë„ ê³„ì‚°
 
-            selectedRigidbody.AddForce(velocity * 0.3f, ForceMode.VelocityChange); // °è»êµÈ ¼Óµµ¿¡ ±â¹İÇÑ Èû Àû¿ë
+            selectedRigidbody.AddForce(velocity * 0.3f, ForceMode.VelocityChange); // ê³„ì‚°ëœ ì†ë„ì— ê¸°ë°˜í•œ í˜ ì ìš©
         }
     }
     */
@@ -106,13 +106,18 @@ public class ObjectSelector : MonoBehaviour
         {
             selectedRigidbody.isKinematic = false;
 
-            Vector3 velocity = (lastMousePosition - dragStartMousePosition) / (Time.time - dragStartTime); // µå·¡±× µ¿¾ÈÀÇ Æò±Õ ¼Óµµ °è»ê
+            Vector3 velocity = (lastMousePosition - holdStartMousePosition) / (Time.time - holdStartTime); // ë“œë˜ê·¸ ë™ì•ˆì˜ í‰ê·  ì†ë„ ê³„ì‚°
 
-            selectedRigidbody.AddForce(velocity * 0.3f, ForceMode.VelocityChange); // °è»êµÈ ¼Óµµ¿¡ ±â¹İÇÑ Èû Àû¿ë
+            selectedRigidbody.AddForce(velocity * 0.3f, ForceMode.VelocityChange); // ê³„ì‚°ëœ ì†ë„ì— ê¸°ë°˜í•œ í˜ ì ìš©
 
-            // ÅäÅ© Àû¿ëÀ» À§ÇÑ ¹«ÀÛÀ§ ¹æÇâ º¤ÅÍ »ı¼º
+            // í† í¬ ì ìš©ì„ ìœ„í•œ ë¬´ì‘ìœ„ ë°©í–¥ ë²¡í„° ìƒì„±
             Vector3 randomTorque = new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f), Random.Range(-3f, 3f));
-            selectedRigidbody.AddTorque(randomTorque, ForceMode.Impulse); // ¹«ÀÛÀ§ ¹æÇâÀ¸·Î ÅäÅ© Àû¿ë
+            selectedRigidbody.AddTorque(randomTorque, ForceMode.Impulse); // ë¬´ì‘ìœ„ ë°©í–¥ìœ¼ë¡œ í† í¬ ì ìš©
         }
+
+        // ì˜¤ë¸Œì íŠ¸ ì°¸ì¡°ë¥¼ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
+        selectedObject = null;
+        selectedRigidbody = null;
     }
+
 }
