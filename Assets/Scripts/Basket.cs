@@ -7,10 +7,10 @@ public class Basket : MonoBehaviour
     // 바구니에 담겨있는 오브젝트를 관리하는 딕셔너리
     private Dictionary<EObjectType.ESelObj, List<GameObject>> collectedObjects = new Dictionary<EObjectType.ESelObj, List<GameObject>>();
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider _other)
     {
         // 오브젝트에서 EObjectType 컴포넌트를 가져옵니다.
-        EObjectType objectTypeComponent = other.GetComponent<EObjectType>();
+        EObjectType objectTypeComponent = _other.GetComponent<EObjectType>();
         if (objectTypeComponent == null) return;
 
         EObjectType.ESelObj type = objectTypeComponent.objectType;
@@ -23,18 +23,32 @@ public class Basket : MonoBehaviour
         else
         {
             // 이미 같은 인스턴스의 오브젝트가 리스트에 있다면 추가하지 않음
-            if (collectedObjects[type].Contains(other.gameObject))
+            if (collectedObjects[type].Contains(_other.gameObject))
             {
                 return;
             }
         }
 
-        collectedObjects[type].Add(other.gameObject);
+        collectedObjects[type].Add(_other.gameObject);
 
         // 바구니 내 동일한 타입의 오브젝트가 정확히 2개인 경우만 제거 로직 실행
         if (collectedObjects[type].Count == 2)
         {
             StartCoroutine(RemoveObjectsAfterDelay(type)); // 짧은 딜레이 후 오브젝트 제거
+        }
+    }
+
+    private void OnTriggerExit(Collider _other)
+    {
+        EObjectType objectTypeComponent = _other.GetComponent<EObjectType>();
+
+        if (objectTypeComponent == null) return;
+
+        EObjectType.ESelObj type = objectTypeComponent.objectType;
+
+        if (collectedObjects.ContainsKey(type) && collectedObjects[type].Contains(_other.gameObject))
+        {
+            collectedObjects[type].Remove(_other.gameObject);
         }
     }
 

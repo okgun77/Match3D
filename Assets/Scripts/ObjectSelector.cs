@@ -19,10 +19,14 @@ public class ObjectSelector : MonoBehaviour
             SelectObject();
         }
 
-        if (isHold)
+        if (isHold && selectedObject != null)
         {
             HoldObject();
-            lastMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.WorldToScreenPoint(selectedObject.transform.position).z)); // 마지막 마우스 위치 업데이트
+            lastMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(
+                Input.mousePosition.x,
+                Input.mousePosition.y,
+                Camera.main.WorldToScreenPoint(selectedObject.transform.position).z
+                )); // 마지막 마우스 위치 업데이트
         }
 
         if (Input.GetMouseButtonUp(0) && isHold)
@@ -43,13 +47,13 @@ public class ObjectSelector : MonoBehaviour
 
             if (objectTypeComponent != null && objectTypeComponent.objectType != EObjectType.ESelObj.NONE)
             {
-                if (selectedObject != null)
-                {
-                    selectedObject.GetComponent<Renderer>().material.color = Color.white;
-                }
+                //if (selectedObject != null)
+                //{
+                //    selectedObject.GetComponent<Renderer>().material.color = Color.white;
+                //}
 
                 selectedObject = hit.transform.gameObject;
-                selectedObject.GetComponent<Renderer>().material.color = Color.red;
+                // selectedObject.GetComponent<Renderer>().material.color = Color.red;
                 selectedRigidbody = selectedObject.GetComponent<Rigidbody>();
 
                 if (selectedRigidbody != null)
@@ -70,20 +74,24 @@ public class ObjectSelector : MonoBehaviour
 
     private void HoldObject()
     {
-        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(new Vector3(
-            Input.mousePosition.x,
-            Input.mousePosition.y,
-            Camera.main.WorldToScreenPoint(selectedObject.transform.position).z));
+        // selectedObject가 null이 아닌지 확인
+        if (selectedObject != null)
+        {
+            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(new Vector3(
+                Input.mousePosition.x,
+                Input.mousePosition.y,
+                Camera.main.WorldToScreenPoint(selectedObject.transform.position).z));
 
-        float desiredHeight = 1.0f;
+            float desiredHeight = 1.5f;
 
-        selectedObject.transform.position = new Vector3(
-            mouseWorldPosition.x + offset.x,
-            desiredHeight,
-            mouseWorldPosition.z + offset.z
-        );
+            selectedObject.transform.position = new Vector3(
+                mouseWorldPosition.x + offset.x,
+                desiredHeight,
+                mouseWorldPosition.z + offset.z
+            );
 
-        // selectedObject.transform.position = mouseWorldPosition + offset;
+            // selectedObject.transform.position = mouseWorldPosition + offset;
+        }
     }
 
     /*
@@ -107,7 +115,6 @@ public class ObjectSelector : MonoBehaviour
             selectedRigidbody.isKinematic = false;
 
             Vector3 velocity = (lastMousePosition - holdStartMousePosition) / (Time.time - holdStartTime); // 드래그 동안의 평균 속도 계산
-
             selectedRigidbody.AddForce(velocity * 0.3f, ForceMode.VelocityChange); // 계산된 속도에 기반한 힘 적용
 
             // 토크 적용을 위한 무작위 방향 벡터 생성

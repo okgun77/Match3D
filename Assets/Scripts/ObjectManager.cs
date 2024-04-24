@@ -22,6 +22,6 @@ public class ObjectManager : MonoBehaviour
     private Vector3 RandomPosition()
     {
         // 무작위 위치 생성 로직
-        return new Vector3(Random.Range(-4f, 4f), 0.5f, Random.Range(-4f, 4f));
+        return new Vector3(Random.Range(-4f, 4f), 0.5f, Random.Range(-5f, 2f));
     }
 }
