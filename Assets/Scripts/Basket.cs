@@ -4,66 +4,103 @@ using UnityEngine;
 
 public class Basket : MonoBehaviour
 {
-    // 바구니에 담겨있는 오브젝트를 관리하는 딕셔너리
-    private Dictionary<EObjectType.ESelObj, List<GameObject>> collectedObjects = new Dictionary<EObjectType.ESelObj, List<GameObject>>();
+    [SerializeField] private Transform p1;
+    [SerializeField] private Transform p2;
 
-    private void OnTriggerEnter(Collider _other)
+    private GameObject objectAtP1;
+    private GameObject objectAtP2;
+
+    private Dictionary<int, GameObject> positionedObjects = new Dictionary<int, GameObject>();
+
+    private void OnTriggerEnter(Collider other)
     {
-        // 오브젝트에서 EObjectType 컴포넌트를 가져옵니다.
-        EObjectType objectTypeComponent = _other.GetComponent<EObjectType>();
-        if (objectTypeComponent == null) return;
-
-        EObjectType.ESelObj type = objectTypeComponent.objectType;
-
-        // 해당 타입의 오브젝트 리스트가 없으면 새로 생성
-        if (!collectedObjects.ContainsKey(type))
+        EObjectType objectTypeComponent = other.GetComponent<EObjectType>();
+        if (objectTypeComponent == null || objectTypeComponent.objectType == EObjectType.ESelObj.NONE)
         {
-            collectedObjects[type] = new List<GameObject>();
+            Debug.Log("Invalid or none object type encountered.");
+            return;
         }
-        else
+
+        int instanceID = other.gameObject.GetInstanceID();
+        Debug.Log("Triggered object: " + other.gameObject.name + ", Type: " + objectTypeComponent.objectType + ", Instance ID: " + instanceID);
+
+        if (!positionedObjects.ContainsKey(instanceID))
         {
-            // 이미 같은 인스턴스의 오브젝트가 리스트에 있다면 추가하지 않음
-            if (collectedObjects[type].Contains(_other.gameObject))
+            if (objectAtP1 == null)
             {
-                return;
+                objectAtP1 = other.gameObject;
+                positionedObjects[instanceID] = objectAtP1;
+                MoveAndFixObject(objectAtP1, p1.position);
+                Debug.Log("Object placed at P1: " + objectAtP1.name);
+            }
+            else if (objectAtP2 == null && !positionedObjects.ContainsKey(instanceID))
+            {
+                objectAtP2 = other.gameObject;
+                positionedObjects[instanceID] = objectAtP2;
+                MoveAndFixObject(objectAtP2, p2.position);
+                CompareAndRemoveObjects();
+                Debug.Log("Object placed at P2: " + objectAtP2.name);
             }
         }
+    }
 
-        collectedObjects[type].Add(_other.gameObject);
 
-        // 바구니 내 동일한 타입의 오브젝트가 정확히 2개인 경우만 제거 로직 실행
-        if (collectedObjects[type].Count == 2)
+    private void OnTriggerExit(Collider other)
+    {
+        int instanceID = other.gameObject.GetInstanceID();
+        if (positionedObjects.ContainsKey(instanceID))
         {
-            StartCoroutine(RemoveObjectsAfterDelay(type)); // 짧은 딜레이 후 오브젝트 제거
+            ReleaseObject(other.gameObject);
+            positionedObjects.Remove(instanceID);
         }
     }
 
-    private void OnTriggerExit(Collider _other)
+    private void MoveAndFixObject(GameObject obj, Vector3 position)
     {
-        EObjectType objectTypeComponent = _other.GetComponent<EObjectType>();
-
-        if (objectTypeComponent == null) return;
-
-        EObjectType.ESelObj type = objectTypeComponent.objectType;
-
-        if (collectedObjects.ContainsKey(type) && collectedObjects[type].Contains(_other.gameObject))
+        obj.transform.position = position;
+        Rigidbody rb = obj.GetComponent<Rigidbody>();
+        if (rb != null)
         {
-            collectedObjects[type].Remove(_other.gameObject);
+            rb.isKinematic = true; // 물리 엔진 영향 제거
+            rb.useGravity = false; // 중력 비활성화
+            rb.interpolation = RigidbodyInterpolation.Interpolate;
+            rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+            rb.constraints = RigidbodyConstraints.FreezeAll;
         }
     }
 
-    private IEnumerator RemoveObjectsAfterDelay(EObjectType.ESelObj type)
-    {
-        yield return new WaitForSeconds(0.1f); // 잠시 대기
 
-        // 해당 타입의 오브젝트가 여전히 2개인지 재확인
-        if (collectedObjects.TryGetValue(type, out List<GameObject> objects) && objects.Count == 2)
+    private void ReleaseObject(GameObject obj)
+    {
+        Rigidbody rb = obj.GetComponent<Rigidbody>();
+        if (rb != null)
         {
-            foreach (GameObject obj in objects)
+            rb.constraints = RigidbodyConstraints.None;
+        }
+    }
+
+    private void CompareAndRemoveObjects()
+    {
+        if (positionedObjects.Count == 2)
+        {
+            var objects = new List<GameObject>(positionedObjects.Values);
+            EObjectType type1 = objects[0].GetComponent<EObjectType>();
+            EObjectType type2 = objects[1].GetComponent<EObjectType>();
+
+            Debug.Log($"Comparing objects: {objects[0].name} with type {type1.objectType}, {objects[1].name} with type {type2.objectType}");
+
+            if (type1.objectType == type2.objectType)
             {
-                Destroy(obj); // 오브젝트 제거
+                Debug.Log("Removing matched objects.");
+                Destroy(objects[0]);
+                Destroy(objects[1]);
+                positionedObjects.Clear();
             }
-            collectedObjects[type].Clear(); // 리스트 초기화
+            else
+            {
+                Debug.Log("Objects did not match.");
+            }
         }
     }
+
 }
