@@ -300,6 +300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
+  fixedRotation: {x: 0, y: 0, z: 0}
 --- !u!4 &120989734 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 980138049275730180, guid: 665ae3644fa3bbf4e87bdcf4cedfee49,
@@ -362,7 +363,7 @@ Transform:
   m_GameObject: {fileID: 325611508}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: 1, z: 0}
+  m_LocalPosition: {x: -1, y: 1, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1075,6 +1076,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
+  fixedRotation: {x: 0, y: 0, z: 0}
 --- !u!4 &628458658 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2934470000812012499, guid: c2da8efa2b66a8a48a1d1185eab44398,
@@ -1233,8 +1235,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4, y: -0.01, z: 2.5}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 4, y: 1.2, z: 2.5}
+  m_Center: {x: 0, y: 0.56, z: 0}
 --- !u!4 &800333660
 Transform:
   m_ObjectHideFlags: 0
@@ -1299,6 +1301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
+  fixedRotation: {x: 0, y: 0, z: 0}
 --- !u!4 &812541724 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8633137398574346753, guid: 036d639055be9444880b29f8b953de48,
@@ -1904,6 +1907,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
+  fixedRotation: {x: 0, y: 0, z: 0}
 --- !u!4 &1336273532 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6672757888970358110, guid: 3dfb7e337cbae8046b1cb331d0d20ed4,
@@ -2281,6 +2285,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1477853740}
+  - component: {fileID: 1477853741}
   m_Layer: 0
   m_Name: P02
   m_TagString: Untagged
@@ -2297,12 +2302,39 @@ Transform:
   m_GameObject: {fileID: 1477853739}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 1, z: 0}
+  m_LocalPosition: {x: 1, y: 1, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 800333660}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1477853741
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477853739}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1552486185 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8515545433315260158, guid: d43f35ddc12c4514493abf98c5c18955,
@@ -2349,6 +2381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
+  fixedRotation: {x: 0, y: 0, z: 0}
 --- !u!4 &1552486195 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9036081058000727108, guid: d43f35ddc12c4514493abf98c5c18955,
@@ -2739,6 +2772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
+  fixedRotation: {x: 0, y: 0, z: 0}
 --- !u!4 &1857843170 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4634247472333534, guid: 8036420a35be94a7fb651ad06f9c6a7d,
@@ -2948,6 +2982,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
+  fixedRotation: {x: 0, y: 0, z: 0}
 --- !u!4 &1986757017 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6996245158790658319, guid: 48841a4659d90b64e8ef9555bdc5a3f6,
@@ -3000,6 +3035,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
+  fixedRotation: {x: 0, y: 0, z: 0}
 --- !u!4 &2147433801 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8260859359304128074, guid: ac36c20d8e4738346a7256af9d5f3cf2,
