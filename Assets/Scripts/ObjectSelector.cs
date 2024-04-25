@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ObjectSelector : MonoBehaviour
 {
-    private GameObject selectedObject;
-    private Rigidbody selectedRigidbody;
-    private bool isHold = false;
-    private Vector3 offset;
-    private Vector3 holdStartMousePosition; // 잡기 시작 시 마우스 위치
-    private Vector3 lastMousePosition; // 마지막 마우스 위치를 추적하는 변수
-    private float holdStartTime; // 잡기 시작 시간
+    private GameObject  selectedObject;
+    private Rigidbody   selectedRigidbody;
+    private bool        isHold = false;
+    private Vector3     offset;                  
+    private Vector3     holdStartMousePosition; // 잡기 시작 시 마우스 위치
+    private Vector3     lastMousePosition;      // 마지막 마우스 위치를 추적하는 변수
+    private float       holdStartTime;          // 잡기 시작 시간
 
     private void Update()
     {
@@ -38,43 +38,41 @@ public class ObjectSelector : MonoBehaviour
 
     private void SelectObject()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+        Ray          ray  = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit[] hits = Physics.RaycastAll(ray, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Collide);
 
-        if (Physics.Raycast(ray, out hit))
+        foreach (RaycastHit hit in hits)
         {
-            EObjectType objectTypeComponent = hit.collider.GetComponent<EObjectType>();
-
-            if (objectTypeComponent != null && objectTypeComponent.objectType != EObjectType.ESelObj.NONE)
+            if (!hit.collider.CompareTag("NotSelectable"))
             {
-                //if (selectedObject != null)
-                //{
-                //    selectedObject.GetComponent<Renderer>().material.color = Color.white;
-                //}
+                EObjectType objectTypeComponent = hit.collider.GetComponent<EObjectType>();
 
-                selectedObject = hit.transform.gameObject;
-                // selectedObject.GetComponent<Renderer>().material.color = Color.red;
-                selectedRigidbody = selectedObject.GetComponent<Rigidbody>();
-
-                if (selectedRigidbody != null)
+                if (objectTypeComponent != null && objectTypeComponent.objectType != EObjectType.ESelObj.NONE)
                 {
-                    selectedRigidbody.isKinematic = true;
+                    selectedObject = hit.transform.gameObject;
+                    selectedRigidbody = selectedObject.GetComponent<Rigidbody>();
+
+                    if (selectedRigidbody != null)
+                    {
+                        selectedRigidbody.isKinematic = true;
+                    }
+
+                    isHold = true;
+                    holdStartMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(
+                        Input.mousePosition.x,
+                        Input.mousePosition.y,
+                        Camera.main.WorldToScreenPoint(selectedObject.transform.position).z));
+                    holdStartTime = Time.time;
+                    Debug.Log("Selected object: " + selectedObject.name);
+                    break;  // 첫 번째 선택 가능한 오브젝트를 선택하고 반복 중지
                 }
-
-                isHold = true;
-
-                holdStartMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(
-                    Input.mousePosition.x,
-                    Input.mousePosition.y,
-                    Camera.main.WorldToScreenPoint(selectedObject.transform.position).z));
-                holdStartTime = Time.time;
             }
         }
     }
 
+
     private void HoldObject()
     {
-        // selectedObject가 null이 아닌지 확인
         if (selectedObject != null)
         {
             Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(new Vector3(
@@ -89,24 +87,8 @@ public class ObjectSelector : MonoBehaviour
                 desiredHeight,
                 mouseWorldPosition.z + offset.z
             );
-
-            // selectedObject.transform.position = mouseWorldPosition + offset;
         }
     }
-
-    /*
-    private void ReleaseObject()
-    {
-        if (selectedRigidbody != null)
-        {
-            selectedRigidbody.isKinematic = false;
-
-            Vector3 velocity = (lastMousePosition - dragStartMousePosition) / (Time.time - dragStartTime); // 드래그 동안의 평균 속도 계산
-
-            selectedRigidbody.AddForce(velocity * 0.3f, ForceMode.VelocityChange); // 계산된 속도에 기반한 힘 적용
-        }
-    }
-    */
 
     private void ReleaseObject()
     {
@@ -122,9 +104,8 @@ public class ObjectSelector : MonoBehaviour
             selectedRigidbody.AddTorque(randomTorque, ForceMode.Impulse); // 무작위 방향으로 토크 적용
         }
 
-        // 오브젝트 참조를 초기화합니다.
-        selectedObject = null;
-        selectedRigidbody = null;
+        // 오브젝트 참조 초기화.
+        selectedObject      = null;
+        selectedRigidbody   = null;
     }
-
 }
