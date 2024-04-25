@@ -63,7 +63,7 @@ public class ObjectSelector : MonoBehaviour
                         Input.mousePosition.y,
                         Camera.main.WorldToScreenPoint(selectedObject.transform.position).z));
                     holdStartTime = Time.time;
-                    Debug.Log("Selected object: " + selectedObject.name);
+                    Debug.Log("선택된 오브젝트: " + selectedObject.name);
                     break;  // 첫 번째 선택 가능한 오브젝트를 선택하고 반복 중지
                 }
             }
