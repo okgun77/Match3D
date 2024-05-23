@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3481038276404722551}
   - component: {fileID: 1574424619855750614}
   - component: {fileID: -8180994868237147800}
+  - component: {fileID: 2338516169616592559}
   m_Layer: 0
   m_Name: stand-ice-cream
   m_TagString: Untagged
@@ -158,3 +159,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
+  fixedRotation: {x: 0, y: 0, z: 0}
+--- !u!114 &2338516169616592559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4363504320892175907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aefbd281c4859a147bdd1b9df617d4ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectType: -1
+  fixedRotation: {x: 0, y: 0, z: 0}

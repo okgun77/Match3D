@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2191751053839905426}
   - component: {fileID: 4395171773663227170}
   - component: {fileID: -5396031549269955907}
+  - component: {fileID: 248053792332789432}
   m_Layer: 0
   m_Name: stand-popcorn-small
   m_TagString: Untagged
@@ -156,3 +157,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
+  fixedRotation: {x: 0, y: 0, z: 0}
+--- !u!114 &248053792332789432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1345380198110597062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aefbd281c4859a147bdd1b9df617d4ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectType: -1
+  fixedRotation: {x: 0, y: 0, z: 0}

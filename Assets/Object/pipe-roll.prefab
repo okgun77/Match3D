@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8705462140390050994}
   - component: {fileID: -7916809240767397918}
   - component: {fileID: 6139403941245998224}
+  - component: {fileID: -4963681453496589986}
   m_Layer: 0
   m_Name: pipe-roll
   m_TagString: Untagged
@@ -151,3 +152,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
+  fixedRotation: {x: 0, y: 0, z: 0}
+--- !u!114 &-4963681453496589986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4510722472005472305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aefbd281c4859a147bdd1b9df617d4ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectType: -1
+  fixedRotation: {x: 0, y: 0, z: 0}

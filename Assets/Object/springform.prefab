@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3018713349292377041}
   - component: {fileID: 6327499904039435495}
   - component: {fileID: 7633421278913312345}
+  - component: {fileID: 3283767195066509667}
   m_Layer: 0
   m_Name: springform
   m_TagString: Untagged
@@ -131,3 +132,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.13, y: 0.060000002, z: 0.15}
   m_Center: {x: -0.000004108995, y: 0.030000001, z: 0.0031777397}
+--- !u!114 &3283767195066509667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3667165656394162692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aefbd281c4859a147bdd1b9df617d4ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectType: 0
+  fixedRotation: {x: 0, y: 0, z: 0}

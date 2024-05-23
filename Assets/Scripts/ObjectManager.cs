@@ -5,8 +5,21 @@ using UnityEngine;
 public class ObjectManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] objectPrefabs;
+    [SerializeField] private GameObject disableObject; // 비활성화할 오브젝트를 지정할 수 있는 시리얼라이즈 필드
+    [SerializeField] private float disableDelay = 5.0f; // 오브젝트 비활성화 딜레이 시간 (초)
 
+    
     private void Start()
+    {
+        CreatePairObjects();
+        
+        if (disableObject != null)
+        {
+            StartCoroutine(DisableObjectAfterDelay(disableObject, disableDelay));
+        }
+    }
+
+    private void CreatePairObjects()
     {
         for (int i = 0; i < objectPrefabs.Length; ++i)
         {
@@ -18,10 +31,16 @@ public class ObjectManager : MonoBehaviour
             }
         }
     }
-
+    
     private Vector3 RandomPosition()
     {
         // 범위 내 무작위 위치 생성
         return new Vector3(Random.Range(-4f, 4f), 0.5f, Random.Range(-5f, 2f));
+    }
+    
+    private IEnumerator DisableObjectAfterDelay(GameObject _obj, float _delay)
+    {
+        yield return new WaitForSeconds(_delay);
+        _obj.SetActive(false); // 오브젝트 비활성화
     }
 }

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -814725865188845408}
   - component: {fileID: -991158866094941280}
   - component: {fileID: 1676471702343175374}
+  - component: {fileID: -5916524337893152910}
   m_Layer: 0
   m_Name: starfish
   m_TagString: Untagged
@@ -128,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
+  fixedRotation: {x: 0, y: 0, z: 0}
 --- !u!64 &1676471702343175374
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -150,3 +152,17 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: 7bd63f1d5fd739949a60543acc31bacb, type: 3}
+--- !u!114 &-5916524337893152910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861126869491600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aefbd281c4859a147bdd1b9df617d4ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectType: -1
+  fixedRotation: {x: 0, y: 0, z: 0}

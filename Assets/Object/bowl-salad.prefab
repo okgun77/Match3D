@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7789605601084073893}
   - component: {fileID: 977780923063279172}
   - component: {fileID: 872431387370886910}
+  - component: {fileID: -6010876145432051974}
   m_Layer: 0
   m_Name: bowl-salad
   m_TagString: Untagged
@@ -152,3 +153,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
+  fixedRotation: {x: 0, y: 0, z: 0}
+--- !u!114 &-6010876145432051974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1709985056669315892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aefbd281c4859a147bdd1b9df617d4ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectType: -1
+  fixedRotation: {x: 0, y: 0, z: 0}
